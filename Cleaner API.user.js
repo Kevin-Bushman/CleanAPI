@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Cleaner API
 // @namespace    http://tampermonkey.net/
-// @version      1.2.21
+// @version      1.2.19
 // @updateURL    https://github.com/Vector-98/CleanAPI/raw/master/Cleaner%20API.user.js
 // @downloadURL  https://github.com/Vector-98/CleanAPI/raw/master/Cleaner%20API.user.js
 // @description  try to make things better for everyone
@@ -83,27 +83,20 @@ var RunSave = false;
 	})
 
 
-	function setAutoHideDoneLines(autoHideRTS) {
-	    var CookieDate = new Date;
-	    CookieDate.setFullYear(CookieDate.getFullYear() + 1);
-	    var cookieName = "autoHideDoneLines=" + autoHideRTS + "; expires=" + CookieDate.toUTCString() + ";";
-	    // alert("autoHideDoneLines:\n\n" + cookieName); // Debugging
-	    document.cookie = cookieName;
-	    if ((autoHideRTS == "yes") || (autoHideRTS == "Yes") || (autoHideRTS == "y") || (autoHideRTS == "Y")) {
-	        autoHideDoneLines = true;
-	    } else {
-	        autoHideDoneLines = false;
-	    }
+	function setAutoHideDoneLines(autoHideRTS){
+		var cookieName = "autoHideDoneLines=" + autoHideRTS;
+		document.cookie = cookieName;
+		if((autoHideRTS == "yes") || (autoHideRTS == "Yes") || (autoHideRTS == "y") || (autoHideRTS == "Y")){
+			autoHideDoneLines = true;
+		}else{
+			autoHideDoneLines = false;
+		}
 	}
+	function setTechName(techName){
+		var cookieName = "techName=" + techName;
+		document.cookie = cookieName;
 
-	function setTechName(techName) {
-	    var CookieDate = new Date;
-	    CookieDate.setFullYear(CookieDate.getFullYear() + 1);
-	    var cookieName = "techName=" + techName + "; expires=" + CookieDate.toUTCString() + ";";
-	    // alert("techName:\n\n" + cookieName); // Debugging
-	    document.cookie = cookieName;
 	}
-	
 	function getCookie(name) {
 		var nameEQ = name + "=";
 		var ca = document.cookie.split(';');
@@ -583,13 +576,9 @@ var RunSave = false;
 		function customPrint(){
 			var w=window.open();
 			var stuffToPrint = $("#sro-number").val().fontsize(7);
-			var PntLoc = $("#shelf-location").val()
 
-			w.document.write("<h1 style='position: absolute; top: 90%; right: 33%;font-family: cursive;'>" +stuffToPrint+ "</h1>");
-			w.document.write("<h2 style='position: absolute; transform: rotate(-90deg); bottom: 45%; left: 80%;font-family: cursive;'>" +stuffToPrint+ "</h2>");
-
-			w.document.write("<h1 style='position: absolute; top: 80%; right: 33%;font-family: cursive;font-size: xxx-large;'>Location: " +PntLoc+ "</h1>");
-			w.document.write("<h2 style='position: absolute; transform: rotate(-90deg); bottom: 45%; left: 75%;font-family: cursive;font-size: xx-large;'>Location: " +PntLoc+ "</h2>");
+			w.document.write("<h1 style='position: absolute; top: 90%; right: 33%'>" +stuffToPrint+ "</h1>");
+			w.document.write("<h2 style='position: absolute; transform: rotate(-90deg); bottom: 45%; left: 80%'>" +stuffToPrint+ "</h2>");
 			w.document.write("Customer: ");
 			w.document.write($("#customer").val());
 			w.document.write("<br> <br>");
@@ -611,7 +600,11 @@ var RunSave = false;
 					var warranty = $("#warranty-" + i).val();
 					w.document.write(["Line: " + i + " " + $("#snumber-" + i).val() + " " + warranty + " " + desc]);
 					w.document.write("<br> <br>");
+
 				}
+
+
+
 			}
 			w.print();
 			w.close();
